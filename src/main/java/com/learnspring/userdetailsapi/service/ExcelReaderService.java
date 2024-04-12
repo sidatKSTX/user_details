@@ -15,7 +15,7 @@ public class ExcelReaderService {
         try (var workbook = new XSSFWorkbook(file.getInputStream())) {
             var sheet = workbook.getSheetAt(0); // Assuming first sheet
 
-            return StreamSupport.stream(sheet.spliterator(), false)
+            return StreamSupport.stream(sheet.spliterator(), false) //converts the sheet into a Java 8 stream
 //                    .skip(1) // Skip the header row
                     .map(row -> {
                         var user = new UserInfo();
