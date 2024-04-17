@@ -1,11 +1,16 @@
 package com.learnspring.userdetailsapi.controller;
 
+import com.learnspring.userdetailsapi.exception.UserNotFoundException;
+import com.learnspring.userdetailsapi.model.UserInfo;
 import com.learnspring.userdetailsapi.service.UserInfoService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping("/api/users")
@@ -24,5 +29,14 @@ public class UserController {
         } catch (Exception e) {
             return "Error uploading Excel data: " + e.getMessage();
         }
+    }
+
+    @GetMapping
+    @Operation(summary = "Extract User Details From Excel")
+    public ResponseEntity<List<UserInfo>> extractExcelDetails() {
+        Optional<List<UserInfo>> users = userInfoService.getUserDetails();
+
+        return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
+                .orElseThrow(() -> new UserNotFoundException("There are no users in Excel file.."));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -22,5 +23,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void createUserDetails(MultipartFile file) throws Exception {
         List<UserInfo> userInfo = excelReaderService.readExcelFile(file);
         repository.saveAll(userInfo);
+    }
+
+    @Override
+    public Optional<List<UserInfo>> getUserDetails() {
+        return Optional.of(repository.findAll());
     }
 }
