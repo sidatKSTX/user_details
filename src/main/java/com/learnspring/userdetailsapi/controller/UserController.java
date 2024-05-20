@@ -12,8 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-//@RequestMapping("/api/users")
+@RequestMapping("/api/users")
 public class UserController {
     private final UserInfoService userInfoService;
 
@@ -31,12 +32,12 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    @Operation(summary = "Extract User Details From Excel")
-    public ResponseEntity<List<UserInfo>> extractExcelDetails() {
+    @GetMapping("/fetch-users")
+    @Operation(summary = "Fetch User Details")
+    public ResponseEntity<List<UserInfo>> fetchUserDetails() {
         Optional<List<UserInfo>> users = userInfoService.getUserDetails();
 
         return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
-                .orElseThrow(() -> new UserNotFoundException("There are no users in Excel file.."));
+                .orElseThrow(() -> new UserNotFoundException("No users found.."));
     }
 }
