@@ -139,18 +139,6 @@ public class ExcelReaderService {
                         } catch (Exception e) {
                             user.setMarketingStartDate(null);
                         }
-//                        if (row.getCell(19).getCellType() == CellType.NUMERIC) {
-//                            user.setOriginalDob(row.getCell(19).getLocalDateTimeCellValue().toLocalDate());
-//                        } else {
-//                            user.setOriginalDob(LocalDate.parse(row.getCell(19).getStringCellValue()));
-//                        }
-//
-//                        if (row.getCell(20).getCellType() == CellType.NUMERIC) {
-//                            user.setMarketingDob(row.getCell(20).getLocalDateTimeCellValue().toLocalDate());
-//                        } else {
-//                            user.setMarketingDob(LocalDate.parse(row.getCell(20).getStringCellValue()));
-//                        }
-//                        user.setWhatsappNumber(row.getCell(21).getStringCellValue());
 
                         if (row.getCell(21).getCellType() != null && !row.getCell(21).getStringCellValue().isEmpty()) {
                             user.setWhatsappNumber(row.getCell(21).getStringCellValue());
@@ -158,11 +146,6 @@ public class ExcelReaderService {
                             user.setWhatsappNumber(null);
                         }
 
-//                        if (row.getCell(22).getCellType() == CellType.NUMERIC && row.getCell(22).getCellType() != null) {
-//                            user.setMarketingStartDate(row.getCell(22).getLocalDateTimeCellValue().toLocalDate());
-//                        } else {
-//                            user.setMarketingStartDate(LocalDate.parse(row.getCell(22).getStringCellValue()));
-//                        }
                         try {
                             if (row.getCell(22) == null || row.getCell(22).getCellType() == CellType.BLANK) {
                                 user.setMarketingStartDate(null);
