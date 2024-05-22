@@ -17,28 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserInfo {
 
-    public enum AssignedUnAssignedStatus {
-        ASSIGNED,
-        UNASSIGNED,
-        OPEN,
-        UNKNOWN
-    }
-
-    public enum Status {
-        NEW,
-        OLD,
-        ACTIVE,
-        INACTIVE,
-        UNKNOWN
-    }
-
-    public enum NewOrExisting {
-        NEW,
-        EXISTING,
-        GUEST_HOUSE,
-        UNKNOWN
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
@@ -51,10 +29,10 @@ public class UserInfo {
     private String consultantName;
 
     @Column(name = "assigned_unAssigned_status")
-    private AssignedUnAssignedStatus assignedUnAssignedStatus;
+    private String assignedUnAssignedStatus;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
     @Column(name = "turbo_check")
     private Integer turboCheck;
@@ -75,13 +53,13 @@ public class UserInfo {
     private String location;
 
     @Column(name = "relocation")
-    private boolean relocation;
+    private String relocation;
 
     @Column(name = "guestHouse_or_remote")
     private String guestHouseOrRemote;
 
     @Column(name = "new_or_existing")
-    private NewOrExisting newOrExisting;
+    private String newOrExisting;
 
     @Column(name = "sourced_by")
     private String sourcedBy;
