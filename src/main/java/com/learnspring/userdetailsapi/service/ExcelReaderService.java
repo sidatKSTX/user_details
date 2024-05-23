@@ -24,22 +24,22 @@ public class ExcelReaderService {
                         var user = new UserInfo();
                         user.setRecruiterName(getStringCellValue(row, 0));
                         user.setConsultantName(getStringCellValue(row, 1));
-                        user.setAssignedUnAssignedStatus(getStringCellValue(row,2));
+                        user.setAllocatedStatus(getStringCellValue(row,2));
                         user.setStatus(getStringCellValue(row,3));
                         user.setTurboCheck(getIntegerCellValue(row, 4));
                         user.setPriority(getStringCellValue(row, 5));
                         user.setTechnology(getStringCellValue(row, 6));
-                        user.setOrg(getStringCellValue(row, 7));
+                        user.setOrganization(getStringCellValue(row, 7));
                         user.setExperience(getIntegerCellValue(row, 8));
                         user.setLocation(getStringCellValue(row, 9));
                         user.setRelocation(getStringCellValue(row, 10));
-                        user.setGuestHouseOrRemote(getStringCellValue(row, 11));
+                        user.setModeOfStaying(getStringCellValue(row, 11));
                         user.setNewOrExisting(getStringCellValue(row,12));
                         user.setSourcedBy(getStringCellValue(row, 13));
-                        user.setOriginalVisaStatus(getStringCellValue(row, 14));
+                        user.setVisaStatus(getStringCellValue(row, 14));
                         user.setMarketingVisaStatus(getStringCellValue(row, 15));
                         user.setContactNumber(getStringCellValue(row, 16));
-                        user.setConsultantsEmailId(getStringCellValue(row, 17));
+                        user.setEmailId(getStringCellValue(row, 17));
                         user.setRate(getIntegerCellValue(row, 18));
                         user.setOriginalDob(getDateCellValue(row, 19));
                         user.setMarketingDob(getDateCellValue(row, 20));
@@ -68,7 +68,7 @@ public class ExcelReaderService {
             try {
                 return Integer.parseInt(cell.getStringCellValue().trim());
             } catch (NumberFormatException e) {
-                return null;
+                return 0;
             }
         }
     }

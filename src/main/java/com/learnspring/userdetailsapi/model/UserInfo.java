@@ -19,82 +19,83 @@ public class UserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id")
+    @Column(name = "USER_ID")
     private long id;
 
-    @Column(name = "recruiter_name")
+    @Column(name = "RECRUITER_NAME")
     private String recruiterName;
 
-    @Column(name = "consultant_name")
+    @Column(name = "CONSULTANT_NAME")
     private String consultantName;
 
-    @Column(name = "assigned_unAssigned_status")
-    private String assignedUnAssignedStatus;
+    @Column(name = "ALLOCATED_STATUS")
+    private String allocatedStatus;
 
-    @Column(name = "status")
+    @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "turbo_check")
+    @Column(name = "TURBO_CHECK")
     private Integer turboCheck;
 
-    @Column(name = "priority")
+    @Column(name = "PRIORITY")
     private String priority;
 
-    @Column(name = "technology")
+    @Column(name = "TECHNOLOGY")
     private String technology;
 
-    @Column(name = "org")
-    private String org;
+    @Column(name = "ORGANIZATION")
+    private String organization;
 
-    @Column(name = "experience")
+    @Column(name = "EXPERIENCE")
     private Integer experience;
 
-    @Column(name = "Location")
+    @Column(name = "LOCATION")
     private String location;
 
-    @Column(name = "relocation")
+    @Column(name = "RELOCATION")
     private String relocation;
 
-    @Column(name = "guestHouse_or_remote")
-    private String guestHouseOrRemote;
+    @Column(name = "MODE_OF_STAYING")
+    private String modeOfStaying;
 
-    @Column(name = "new_or_existing")
+    @Column(name = "NEW_OR_EXISTING") //Need to change
     private String newOrExisting;
 
-    @Column(name = "sourced_by")
+    @Column(name = "SOURCED_BY")
     private String sourcedBy;
 
-    @Column(name = "original_visa_status")
-    private String originalVisaStatus;
+    @Column(name = "VISA_STATUS")
+    private String visaStatus;
 
-    @Column(name = "marketing_visa_status")
+    @Column(name = "MARKETING_VISA_STATUS")
     private String marketingVisaStatus;
 
-    @Column(name = "contact_number")
+    @Column(name = "CONTACT_NUMBER")
     private String contactNumber;
 
-    @Column(name = "consultants_email_id")
-    private String consultantsEmailId;
+    @Column(name = "EMAIL_ID")
+    private String emailId;
 
-    @Column(name = "rate")
+//    Check if we need to change to string datatype
+    @Column(name = "RATE")
     private Integer rate;
 
-    @Column(name = "orginal_dob")
+    @Column(name = "ORIGINAL_DOB")
     private LocalDate originalDob;
 
-    @Column(name = "marketing_dob")
+    @Column(name = "MARKETING_DOB")
     private LocalDate marketingDob;
 
-    @Column(name = "whatsapp_number")
+    @Column(name = "WHATSAPP_NUMBER")
     private String whatsappNumber;
 
-    @Column(name = "marketing_start_date")
+    @Column(name = "MARKETING_START_DATE")
     private LocalDate marketingStartDate;
 
-    @Column(name = "marketing_end_date")
+    @Column(name = "MARKETING_END_DATE")
     private LocalDate marketingEndDate;
 
-    @Column(name = "comments")
+    @Column(name = "COMMENTS")
     private String comments;
 
     @CreationTimestamp
