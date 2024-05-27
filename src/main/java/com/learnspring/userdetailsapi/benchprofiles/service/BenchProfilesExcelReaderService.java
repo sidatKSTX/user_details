@@ -1,27 +1,25 @@
-package com.learnspring.userdetailsapi.service;
+package com.learnspring.userdetailsapi.benchprofiles.service;
 
-import com.learnspring.userdetailsapi.model.UserInfo;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
+import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import static com.learnspring.userdetailsapi.common.ExcelUtil.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class ExcelReaderService {
-    public List<UserInfo> readExcelFile(MultipartFile file) throws Exception {
+public class BenchProfilesExcelReaderService {
+    public List<BenchProfilesInfo> readExcelFile(MultipartFile file) throws Exception {
         try (var workbook = new XSSFWorkbook(file.getInputStream())) {
             var sheet = workbook.getSheetAt(0); // Assuming first sheet
 
             return StreamSupport.stream(sheet.spliterator(), false) // Convert the sheet into a Java 8 stream
                     .skip(1) // Skip the header row
                     .map(row -> {
-                        var user = new UserInfo();
+                        var user = new BenchProfilesInfo();
                         user.setRecruiterName(getStringCellValue(row, 0));
                         user.setConsultantName(getStringCellValue(row, 1));
                         user.setAllocatedStatus(getStringCellValue(row,2));
@@ -50,41 +48,6 @@ public class ExcelReaderService {
                         return user;
                     })
                     .collect(Collectors.toList());
-        }
-    }
-
-    private String getStringCellValue(Row row, int cellIndex) {
-        var cell = row.getCell(cellIndex);
-        return cell != null ? cell.getStringCellValue().trim() : null;
-    }
-
-    private Integer getIntegerCellValue(Row row, int cellIndex) {
-        var cell = row.getCell(cellIndex);
-        if (cell == null || cell.getCellType() == CellType.BLANK) {
-            return null;
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            return (int) cell.getNumericCellValue();
-        } else {
-            try {
-                return Integer.parseInt(cell.getStringCellValue().trim());
-            } catch (NumberFormatException e) {
-                return 0;
-            }
-        }
-    }
-
-    private LocalDate getDateCellValue(Row row, int cellIndex) {
-        var cell = row.getCell(cellIndex);
-        if (cell == null || cell.getCellType() == CellType.BLANK) {
-            return null;
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            return cell.getLocalDateTimeCellValue().toLocalDate();
-        } else {
-            try {
-                return LocalDate.parse(cell.getStringCellValue().trim());
-            } catch (Exception e) {
-                return null;
-            }
         }
     }
 }

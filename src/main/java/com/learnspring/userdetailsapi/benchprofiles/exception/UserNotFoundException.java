@@ -1,4 +1,4 @@
-package com.learnspring.userdetailsapi.exception;
+package com.learnspring.userdetailsapi.benchprofiles.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

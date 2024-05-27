@@ -1,4 +1,4 @@
-package com.learnspring.userdetailsapi.model;
+package com.learnspring.userdetailsapi.benchprofiles.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class UserInfo {
+public class BenchProfilesInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,6 +46,7 @@ public class UserInfo {
     @Column(name = "ORGANIZATION")
     private String organization;
 
+//    Check if we need to change the datatype to string (Ex: if input is 8+)
     @Column(name = "EXPERIENCE")
     private Integer experience;
 
@@ -58,7 +59,8 @@ public class UserInfo {
     @Column(name = "MODE_OF_STAYING")
     private String modeOfStaying;
 
-    @Column(name = "NEW_OR_EXISTING") //Need to change
+    //Need to change the name into more meaningful
+    @Column(name = "NEW_OR_EXISTING")
     private String newOrExisting;
 
     @Column(name = "SOURCED_BY")
