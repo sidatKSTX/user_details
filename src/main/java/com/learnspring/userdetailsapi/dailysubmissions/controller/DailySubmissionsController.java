@@ -1,9 +1,11 @@
-package com.learnspring.userdetailsapi.benchprofiles.controller;
+package com.learnspring.userdetailsapi.dailysubmissions.controller;
 
-import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
-import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.benchprofiles.exception.UserNotFoundException;
+import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.benchprofiles.service.BenchProfilesService;
+import com.learnspring.userdetailsapi.dailysubmissions.dto.DailySubmissionsDto;
+import com.learnspring.userdetailsapi.dailysubmissions.model.DailySubmissionsInfo;
+import com.learnspring.userdetailsapi.dailysubmissions.service.DailySubmissionsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,38 +19,39 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
-public class BenchProfilesController {
-    private final BenchProfilesService benchProfilesService;
+public class DailySubmissionsController {
+    private final DailySubmissionsService dailySubmissionsService;
 
-    public BenchProfilesController(BenchProfilesService benchProfilesService) {
-        this.benchProfilesService = benchProfilesService;
+
+    public DailySubmissionsController(DailySubmissionsService dailySubmissionsService) {
+        this.dailySubmissionsService = dailySubmissionsService;
     }
 
-    @PostMapping(value = "/upload-excel", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/upload-daily-submissions-excel", consumes = {"multipart/form-data"})
     public String uploadExcel(@RequestParam("file") MultipartFile file) {
         try {
-            benchProfilesService.createUserDetails(file);
+            dailySubmissionsService.createSubmissionDetails(file);
             return "Excel data uploaded and inserted into database successfully.";
         } catch (Exception e) {
             return "Error uploading Excel data: " + e.getMessage();
         }
     }
 
-    @PostMapping("/create")
-    public String createUserInfo(@Valid @RequestBody BenchProfilesDto benchProfilesDto) {
+    @PostMapping("/create-submission-details")
+    public String createSubmissionInfo(@Valid @RequestBody DailySubmissionsDto dailySubmissionsDto) {
         try {
-            benchProfilesService.createUserInfoDetails(benchProfilesDto);
+            dailySubmissionsService.createSubmissionInfoDetails(dailySubmissionsDto);
             return "data uploaded successfully.";
         } catch (Exception e) {
             return "Error uploading Excel data: " + e.getMessage();
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/daily-submissions/{id}")
     @Operation(summary = "Update Bench profiles User Details")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody BenchProfilesInfo benchProfilesInfo) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody DailySubmissionsInfo dailySubmissionsInfo) {
         try {
-            benchProfilesService.updateUserDetails(id, benchProfilesInfo);
+            dailySubmissionsService.updateSubmissionDetails(id, dailySubmissionsInfo);
             return new ResponseEntity<>("User details updated successfully.", HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -57,10 +60,10 @@ public class BenchProfilesController {
         }
     }
 
-    @GetMapping("/fetch-users")
+    @GetMapping("/fetch-daily-submissions-users")
     @Operation(summary = "Fetch Bench profiles User Details")
-    public ResponseEntity<List<BenchProfilesInfo>> fetchUserDetails() {
-        Optional<List<BenchProfilesInfo>> users = benchProfilesService.getUserDetails();
+    public ResponseEntity<List<DailySubmissionsInfo>> fetchUserDetails() {
+        Optional<List<DailySubmissionsInfo>> users = dailySubmissionsService.getSubmissionDetails();
 
         return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
                 .orElseThrow(() -> new UserNotFoundException("No users found.."));

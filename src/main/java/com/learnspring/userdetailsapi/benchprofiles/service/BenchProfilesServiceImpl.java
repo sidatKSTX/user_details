@@ -1,9 +1,13 @@
 package com.learnspring.userdetailsapi.benchprofiles.service;
 
+import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
 import com.learnspring.userdetailsapi.benchprofiles.exception.UserNotFoundException;
 import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.benchprofiles.repository.BenchProfilesRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,6 +28,41 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
     public void createUserDetails(MultipartFile file) throws Exception {
         List<BenchProfilesInfo> benchProfilesInfo = benchProfilesExcelReaderService.readExcelFile(file);
         benchProfilesRepository.saveAll(benchProfilesInfo);
+    }
+
+    @Override
+    public void createUserInfoDetails(BenchProfilesDto benchProfilesDto) {
+        BenchProfilesInfo benchProfilesInfo = new BenchProfilesInfo();
+        benchProfilesInfo.setRecruiterName(benchProfilesDto.recruiterName());
+        benchProfilesInfo.setConsultantName(benchProfilesDto.consultantName());
+        benchProfilesInfo.setAllocatedStatus(benchProfilesDto.allocatedStatus());
+        benchProfilesInfo.setStatus(benchProfilesDto.status());
+        benchProfilesInfo.setTurboCheck(benchProfilesDto.turboCheck());
+        benchProfilesInfo.setPriority(benchProfilesDto.priority());
+        benchProfilesInfo.setTechnology(benchProfilesDto.technology());
+        benchProfilesInfo.setOrganization(benchProfilesDto.organization());
+        benchProfilesInfo.setExperience(benchProfilesDto.experience());
+        benchProfilesInfo.setLocation(benchProfilesDto.location());
+        benchProfilesInfo.setRelocation(benchProfilesDto.relocation());
+        benchProfilesInfo.setModeOfStaying(benchProfilesDto.modeOfStaying());
+        benchProfilesInfo.setNewOrExisting(benchProfilesDto.newOrExisting());
+        benchProfilesInfo.setSourcedBy(benchProfilesDto.sourcedBy());
+        benchProfilesInfo.setVisaStatus(benchProfilesDto.visaStatus());
+        benchProfilesInfo.setMarketingVisaStatus(benchProfilesDto.marketingVisaStatus());
+        benchProfilesInfo.setContactNumber(benchProfilesDto.contactNumber());
+        benchProfilesInfo.setEmailId(benchProfilesDto.emailId());
+        benchProfilesInfo.setRate(benchProfilesDto.rate());
+        benchProfilesInfo.setOriginalDob(benchProfilesDto.originalDob());
+        benchProfilesInfo.setMarketingDob(benchProfilesDto.marketingDob());
+        benchProfilesInfo.setWhatsappNumber(benchProfilesDto.whatsappNumber());
+        benchProfilesInfo.setMarketingStartDate(benchProfilesDto.marketingStartDate());
+        benchProfilesInfo.setMarketingEndDate(benchProfilesDto.marketingEndDate());
+        benchProfilesInfo.setComments(benchProfilesDto.comments());
+        benchProfilesInfo.setDateCreated(benchProfilesDto.dateCreated());
+        benchProfilesInfo.setLastUpdated(benchProfilesDto.lastUpdated());
+
+        benchProfilesRepository.save(benchProfilesInfo);
+
     }
 
     public void updateUserDetails(Long id, BenchProfilesInfo benchProfilesInfo) throws UserNotFoundException {
