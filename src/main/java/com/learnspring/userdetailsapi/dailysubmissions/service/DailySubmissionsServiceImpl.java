@@ -1,11 +1,9 @@
 package com.learnspring.userdetailsapi.dailysubmissions.service;
 
-import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
-import com.learnspring.userdetailsapi.benchprofiles.exception.UserNotFoundException;
-import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.dailysubmissions.dto.DailySubmissionsDto;
 import com.learnspring.userdetailsapi.dailysubmissions.model.DailySubmissionsInfo;
 import com.learnspring.userdetailsapi.dailysubmissions.repository.DailySubmissionsRepository;
+import com.learnspring.userdetailsapi.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +29,7 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
     }
 
     @Override
-    public void createSubmissionInfoDetails(DailySubmissionsDto dailySubmissionsDto) {
+    public DailySubmissionsInfo createSubmissionInfoDetails(DailySubmissionsDto dailySubmissionsDto) {
         DailySubmissionsInfo dailySubmissionsInfo = new DailySubmissionsInfo();
         dailySubmissionsInfo.setDateOfEntry(dailySubmissionsDto.dateOfEntry());
         dailySubmissionsInfo.setRecruiterName(dailySubmissionsDto.recruiterName());
@@ -48,8 +46,7 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
         dailySubmissionsInfo.setDateCreated(dailySubmissionsDto.dateCreated());
         dailySubmissionsInfo.setLastUpdated(dailySubmissionsDto.lastUpdated());
 
-        dailySubmissionsRepository.save(dailySubmissionsInfo);
-
+        return dailySubmissionsRepository.save(dailySubmissionsInfo);
     }
 
     public void updateSubmissionDetails(Long id, DailySubmissionsInfo dailySubmissionsInfo) throws UserNotFoundException {
@@ -75,5 +72,20 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
     @Override
     public Optional<List<DailySubmissionsInfo>> getSubmissionDetails() {
         return Optional.of(dailySubmissionsRepository.findAll());
+    }
+
+    @Override
+    public Optional<Optional<DailySubmissionsInfo>> getSubmissionDetailsByID(Long id) {
+        return Optional.of(dailySubmissionsRepository.findById(id));
+    }
+
+    @Override
+    public void deleteSubmissionInfoById(long id) {
+        dailySubmissionsRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAllSubmissionDetails() {
+        dailySubmissionsRepository.deleteAll();
     }
 }

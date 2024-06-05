@@ -2,15 +2,17 @@ package com.learnspring.userdetailsapi.benchprofiles.controller;
 
 import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
 import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
-import com.learnspring.userdetailsapi.benchprofiles.exception.UserNotFoundException;
 import com.learnspring.userdetailsapi.benchprofiles.service.BenchProfilesService;
+import com.learnspring.userdetailsapi.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,45 +26,59 @@ public class BenchProfilesController {
         this.benchProfilesService = benchProfilesService;
     }
 
-    @PostMapping(value = "/upload-excel", consumes = {"multipart/form-data"})
-    public String uploadExcel(@RequestParam("file") MultipartFile file) {
-        try {
-            benchProfilesService.createUserDetails(file);
-            return "Excel data uploaded and inserted into database successfully.";
-        } catch (Exception e) {
-            return "Error uploading Excel data: " + e.getMessage();
-        }
+    @PostMapping(value = "/upload-bench-profiles-excel", consumes = {"multipart/form-data"})
+    public ResponseEntity<String> uploadExcel(@RequestParam("file") MultipartFile file) throws Exception {
+        benchProfilesService.createUserDetails(file);
+        return new ResponseEntity<>("Excel data uploaded and inserted into database successfully.", HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public String createUserInfo(@Valid @RequestBody BenchProfilesDto benchProfilesDto) {
-        try {
-            benchProfilesService.createUserInfoDetails(benchProfilesDto);
-            return "data uploaded successfully.";
-        } catch (Exception e) {
-            return "Error uploading Excel data: " + e.getMessage();
-        }
+    @PostMapping("/create-bench-profiles")
+    public ResponseEntity<BenchProfilesInfo> createBenchProfileInfo(@Valid @RequestBody BenchProfilesDto benchProfilesDto) {
+        var newBenchProfileInfo = benchProfilesService.createUserInfoDetails(benchProfilesDto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newBenchProfileInfo.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update Bench profiles User Details")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody BenchProfilesInfo benchProfilesInfo) {
-        try {
-            benchProfilesService.updateUserDetails(id, benchProfilesInfo);
-            return new ResponseEntity<>("User details updated successfully.", HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error updating user details: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<String> updateBenchProfileInfo(@PathVariable Long id, @RequestBody BenchProfilesInfo benchProfilesInfo) {
+        benchProfilesService.updateUserDetails(id, benchProfilesInfo);
+        return new ResponseEntity<>("User details updated successfully.", HttpStatus.OK);
     }
 
     @GetMapping("/fetch-users")
     @Operation(summary = "Fetch Bench profiles User Details")
-    public ResponseEntity<List<BenchProfilesInfo>> fetchUserDetails() {
+    public ResponseEntity<List<BenchProfilesInfo>> fetchBenchProfileDetails() {
         Optional<List<BenchProfilesInfo>> users = benchProfilesService.getUserDetails();
 
         return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
                 .orElseThrow(() -> new UserNotFoundException("No users found.."));
+    }
+
+    @GetMapping("/fetch-users-by-ID/{id}")
+    @Operation(summary = "Fetch Bench profiles User Details")
+    public ResponseEntity<Optional<BenchProfilesInfo>> fetchBenchProfileDetailsByID(@PathVariable Long id) {
+        Optional<Optional<BenchProfilesInfo>> users = benchProfilesService.getUserDetailsByID(id);
+
+        return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+    }
+
+    @DeleteMapping("delete-all-users")
+    @Operation(summary = "Delete All Users")
+    public ResponseEntity<HttpStatus> deleteAllUserInfo() {
+        benchProfilesService.deleteAllUserInfo();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("delete-user-by-id/{id}")
+    @Operation(summary = "Delete User By Id")
+    public ResponseEntity<HttpStatus> deleteUserInfoById(@PathVariable("id") long id) {
+        benchProfilesService.deleteUserInfoById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

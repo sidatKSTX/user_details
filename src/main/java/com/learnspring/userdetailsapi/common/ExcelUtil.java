@@ -7,9 +7,29 @@ import java.time.LocalDate;
 
 public class ExcelUtil {
 
+//    public static String getStringCellValue(Row row, int cellIndex) {
+//        var cell = row.getCell(cellIndex);
+//        return cell != null ? cell.getStringCellValue().trim() : null;
+//    }
+
     public static String getStringCellValue(Row row, int cellIndex) {
         var cell = row.getCell(cellIndex);
-        return cell != null ? cell.getStringCellValue().trim() : null;
+        if (cell == null) {
+            return null;
+        }
+
+        if (cell.getCellType() == CellType.STRING) {
+            return cell.getStringCellValue().trim();
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            if (numericValue == (int) numericValue) {
+                return String.valueOf((int) numericValue).trim();
+            } else {
+                return String.valueOf(numericValue).trim();
+            }
+        } else {
+            return null;
+        }
     }
 
     public static Integer getIntegerCellValue(Row row, int cellIndex) {

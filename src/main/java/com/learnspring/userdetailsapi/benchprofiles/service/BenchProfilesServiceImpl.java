@@ -1,13 +1,10 @@
 package com.learnspring.userdetailsapi.benchprofiles.service;
 
 import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
-import com.learnspring.userdetailsapi.benchprofiles.exception.UserNotFoundException;
 import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.benchprofiles.repository.BenchProfilesRepository;
-import jakarta.validation.Valid;
+import com.learnspring.userdetailsapi.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,8 +28,8 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
     }
 
     @Override
-    public void createUserInfoDetails(BenchProfilesDto benchProfilesDto) {
-        BenchProfilesInfo benchProfilesInfo = new BenchProfilesInfo();
+    public BenchProfilesInfo createUserInfoDetails(BenchProfilesDto benchProfilesDto) {
+        var benchProfilesInfo = new BenchProfilesInfo();
         benchProfilesInfo.setRecruiterName(benchProfilesDto.recruiterName());
         benchProfilesInfo.setConsultantName(benchProfilesDto.consultantName());
         benchProfilesInfo.setAllocatedStatus(benchProfilesDto.allocatedStatus());
@@ -51,7 +48,6 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
         benchProfilesInfo.setMarketingVisaStatus(benchProfilesDto.marketingVisaStatus());
         benchProfilesInfo.setContactNumber(benchProfilesDto.contactNumber());
         benchProfilesInfo.setEmailId(benchProfilesDto.emailId());
-        benchProfilesInfo.setRate(benchProfilesDto.rate());
         benchProfilesInfo.setOriginalDob(benchProfilesDto.originalDob());
         benchProfilesInfo.setMarketingDob(benchProfilesDto.marketingDob());
         benchProfilesInfo.setWhatsappNumber(benchProfilesDto.whatsappNumber());
@@ -61,8 +57,7 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
         benchProfilesInfo.setDateCreated(benchProfilesDto.dateCreated());
         benchProfilesInfo.setLastUpdated(benchProfilesDto.lastUpdated());
 
-        benchProfilesRepository.save(benchProfilesInfo);
-
+        return benchProfilesRepository.save(benchProfilesInfo);
     }
 
     public void updateUserDetails(Long id, BenchProfilesInfo benchProfilesInfo) throws UserNotFoundException {
@@ -88,7 +83,6 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
         existingUser.setMarketingVisaStatus(benchProfilesInfo.getMarketingVisaStatus());
         existingUser.setContactNumber(benchProfilesInfo.getContactNumber());
         existingUser.setEmailId(benchProfilesInfo.getEmailId());
-        existingUser.setRate(benchProfilesInfo.getRate());
         existingUser.setOriginalDob(benchProfilesInfo.getOriginalDob());
         existingUser.setMarketingDob(benchProfilesInfo.getMarketingDob());
         existingUser.setWhatsappNumber(benchProfilesInfo.getWhatsappNumber());
@@ -102,5 +96,20 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
     @Override
     public Optional<List<BenchProfilesInfo>> getUserDetails() {
         return Optional.of(benchProfilesRepository.findAll());
+    }
+
+    @Override
+    public Optional<Optional<BenchProfilesInfo>> getUserDetailsByID(Long id) {
+        return Optional.of(benchProfilesRepository.findById(id));
+    }
+
+    @Override
+    public void deleteUserInfoById(long id) {
+        benchProfilesRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAllUserInfo() {
+        benchProfilesRepository.deleteAll();
     }
 }

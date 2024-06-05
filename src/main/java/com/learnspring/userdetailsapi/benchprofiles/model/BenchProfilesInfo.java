@@ -46,9 +46,9 @@ public class BenchProfilesInfo {
     @Column(name = "ORGANIZATION")
     private String organization;
 
-//    Check if we need to change the datatype to string (Ex: if input is 8+)
+    //    Check if we need to change the datatype to string (Ex: if input is 8+)
     @Column(name = "EXPERIENCE")
-    private Integer experience;
+    private String experience;
 
     @Column(name = "LOCATION")
     private String location;
@@ -77,10 +77,6 @@ public class BenchProfilesInfo {
 
     @Column(name = "EMAIL_ID")
     private String emailId;
-
-//    Check if we need to change to string datatype
-    @Column(name = "RATE")
-    private Integer rate;
 
     @Column(name = "ORIGINAL_DOB")
     private LocalDate originalDob;
