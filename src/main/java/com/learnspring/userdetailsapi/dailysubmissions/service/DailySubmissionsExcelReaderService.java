@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.learnspring.userdetailsapi.common.ExcelUtil.getDateCellValue;
-import static com.learnspring.userdetailsapi.common.ExcelUtil.getStringCellValue;
+import static com.learnspring.userdetailsapi.common.ExcelUtil.*;
 
 @Service
 public class DailySubmissionsExcelReaderService {
     public List<DailySubmissionsInfo> readExcelFile(MultipartFile file) throws Exception {
         try (var workbook = new XSSFWorkbook(file.getInputStream())) {
-            var sheet = workbook.getSheetAt(0); // Assuming first sheet
+            var sheet = workbook.getSheetAt(4);
 
             return StreamSupport.stream(sheet.spliterator(), false)
                     .skip(1) // Skip the header row
+                    .filter(row -> !isEmptyRow(row))
                     .map(row -> {
                         var user = new DailySubmissionsInfo();
                         user.setDateOfEntry(getDateCellValue(row, 0));

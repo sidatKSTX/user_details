@@ -55,12 +55,15 @@ public class BenchProfilesController {
     public ResponseEntity<List<BenchProfilesInfo>> fetchBenchProfileDetails() {
         Optional<List<BenchProfilesInfo>> users = benchProfilesService.getUserDetails();
 
-        return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
-                .orElseThrow(() -> new UserNotFoundException("No users found.."));
+        if (users.isEmpty() || users.get().isEmpty()) {
+            throw new UserNotFoundException("No users found.");
+        }
+
+        return new ResponseEntity<>(users.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/fetch-users-by-ID/{id}")
-    @Operation(summary = "Fetch Bench profiles User Details")
+    @GetMapping("/fetch-users/{id}")
+    @Operation(summary = "Fetch Bench profiles User Details by ID")
     public ResponseEntity<Optional<BenchProfilesInfo>> fetchBenchProfileDetailsByID(@PathVariable Long id) {
         Optional<Optional<BenchProfilesInfo>> users = benchProfilesService.getUserDetailsByID(id);
 
@@ -75,7 +78,7 @@ public class BenchProfilesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("delete-user-by-id/{id}")
+    @DeleteMapping("delete-users/{id}")
     @Operation(summary = "Delete User By Id")
     public ResponseEntity<HttpStatus> deleteUserInfoById(@PathVariable("id") long id) {
         benchProfilesService.deleteUserInfoById(id);

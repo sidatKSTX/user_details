@@ -60,6 +60,7 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
         return benchProfilesRepository.save(benchProfilesInfo);
     }
 
+    @Override
     public void updateUserDetails(Long id, BenchProfilesInfo benchProfilesInfo) throws UserNotFoundException {
         BenchProfilesInfo existingUser = benchProfilesRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
@@ -104,12 +105,12 @@ public class BenchProfilesServiceImpl implements BenchProfilesService {
     }
 
     @Override
-    public void deleteUserInfoById(long id) {
-        benchProfilesRepository.deleteById(id);
+    public void deleteAllUserInfo() {
+        benchProfilesRepository.deleteAll();
     }
 
     @Override
-    public void deleteAllUserInfo() {
-        benchProfilesRepository.deleteAll();
+    public void deleteUserInfoById(long id) {
+        benchProfilesRepository.deleteById(id);
     }
 }

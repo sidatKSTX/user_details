@@ -19,7 +19,7 @@ public interface DailySubmissionsService {
 
     Optional<Optional<DailySubmissionsInfo>> getSubmissionDetailsByID(Long id);
 
-    void deleteSubmissionInfoById(long id);
-
     void deleteAllSubmissionDetails();
+
+    void deleteSubmissionInfoById(long id);
 }

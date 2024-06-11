@@ -15,10 +15,11 @@ import static com.learnspring.userdetailsapi.common.ExcelUtil.*;
 public class BenchProfilesExcelReaderService {
     public List<BenchProfilesInfo> readExcelFile(MultipartFile file) throws Exception {
         try (var workbook = new XSSFWorkbook(file.getInputStream())) {
-            var sheet = workbook.getSheetAt(0); // Assuming first sheet
+            var sheet = workbook.getSheetAt(3);
 
             return StreamSupport.stream(sheet.spliterator(), false)
                     .skip(1) // Skip the header row
+                    .filter(row -> !isEmptyRow(row))
                     .map(row -> {
                         var user = new BenchProfilesInfo();
                         user.setRecruiterName(getStringCellValue(row, 0));

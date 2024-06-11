@@ -23,7 +23,7 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
 
     @Override
     public void createSubmissionDetails(MultipartFile file) throws Exception {
-        List<DailySubmissionsInfo> d = dailySubmissionsExcelReaderService.readExcelFile(file);
+//        List<DailySubmissionsInfo> d = dailySubmissionsExcelReaderService.readExcelFile(file);
         List<DailySubmissionsInfo> dailySubmissionsInfo = dailySubmissionsExcelReaderService.readExcelFile(file);
         dailySubmissionsRepository.saveAll(dailySubmissionsInfo);
     }
@@ -80,12 +80,12 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
     }
 
     @Override
-    public void deleteSubmissionInfoById(long id) {
-        dailySubmissionsRepository.deleteById(id);
+    public void deleteAllSubmissionDetails() {
+        dailySubmissionsRepository.deleteAll();
     }
 
     @Override
-    public void deleteAllSubmissionDetails() {
-        dailySubmissionsRepository.deleteAll();
+    public void deleteSubmissionInfoById(long id) {
+        dailySubmissionsRepository.deleteById(id);
     }
 }

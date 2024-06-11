@@ -19,7 +19,7 @@ public interface BenchProfilesService {
 
     Optional<Optional<BenchProfilesInfo>> getUserDetailsByID(Long id);
 
-    void deleteUserInfoById(long id);
-
     void deleteAllUserInfo();
+
+    void deleteUserInfoById(long id);
 }

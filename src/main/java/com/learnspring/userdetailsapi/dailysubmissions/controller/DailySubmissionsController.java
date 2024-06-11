@@ -55,11 +55,14 @@ public class DailySubmissionsController {
     public ResponseEntity<List<DailySubmissionsInfo>> fetchSubmissionDetails() {
         Optional<List<DailySubmissionsInfo>> users = dailySubmissionsService.getSubmissionDetails();
 
-        return users.map(userDetails -> new ResponseEntity<>(userDetails, HttpStatus.OK))
-                .orElseThrow(() -> new UserNotFoundException("No users found.."));
+        if (users.isEmpty() || users.get().isEmpty()) {
+            throw new UserNotFoundException("No users found.");
+        }
+
+        return new ResponseEntity<>(users.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/fetch-daily-submissions-by-ID/{id}")
+    @GetMapping("/fetch-submissions/{id}")
     @Operation(summary = "Fetch daily submissions User Details by ID")
     public ResponseEntity<Optional<DailySubmissionsInfo>> fetchSubmissionDetailsByID(@PathVariable Long id) {
         Optional<Optional<DailySubmissionsInfo>> users = dailySubmissionsService.getSubmissionDetailsByID(id);
@@ -75,7 +78,7 @@ public class DailySubmissionsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("delete-submission-by-id/{id}")
+    @DeleteMapping("delete-submission/{id}")
     @Operation(summary = "Delete Submission By Id")
     public ResponseEntity<HttpStatus> deleteUserInfoById(@PathVariable("id") long id) {
         dailySubmissionsService.deleteSubmissionInfoById(id);
