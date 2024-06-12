@@ -2,6 +2,7 @@ package com.learnspring.userdetailsapi.benchprofiles.service;
 
 import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +14,13 @@ import static com.learnspring.userdetailsapi.common.ExcelUtil.*;
 
 @Service
 public class BenchProfilesExcelReaderService {
+
+    @Value("${bench-profiles-excel-sheet-index}")
+    private int sheetIndex;
+
     public List<BenchProfilesInfo> readExcelFile(MultipartFile file) throws Exception {
         try (var workbook = new XSSFWorkbook(file.getInputStream())) {
-            var sheet = workbook.getSheetAt(3);
+            var sheet = workbook.getSheetAt(sheetIndex);
 
             return StreamSupport.stream(sheet.spliterator(), false)
                     .skip(1) // Skip the header row
