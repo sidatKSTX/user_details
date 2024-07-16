@@ -3,6 +3,7 @@ package com.learnspring.userdetailsapi.benchprofiles.service;
 import com.learnspring.userdetailsapi.benchprofiles.dto.BenchProfilesDto;
 import com.learnspring.userdetailsapi.benchprofiles.model.BenchProfilesInfo;
 import com.learnspring.userdetailsapi.benchprofiles.repository.BenchProfilesRepository;
+import com.learnspring.userdetailsapi.common.CommonExcelReaderService;
 import com.learnspring.userdetailsapi.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,16 +15,16 @@ import java.util.Optional;
 public class BenchProfilesServiceImpl implements BenchProfilesService {
 
     private final BenchProfilesRepository benchProfilesRepository;
-    private final BenchProfilesExcelReaderService benchProfilesExcelReaderService;
+    private final CommonExcelReaderService benchProfilesExcelReaderService;
 
-    public BenchProfilesServiceImpl(BenchProfilesRepository benchProfilesRepository, BenchProfilesExcelReaderService benchProfilesExcelReaderService) {
+    public BenchProfilesServiceImpl(BenchProfilesRepository benchProfilesRepository, CommonExcelReaderService benchProfilesExcelReaderService) {
         this.benchProfilesRepository = benchProfilesRepository;
         this.benchProfilesExcelReaderService = benchProfilesExcelReaderService;
     }
 
     @Override
     public void createUserDetails(MultipartFile file) throws Exception {
-        List<BenchProfilesInfo> benchProfilesInfo = benchProfilesExcelReaderService.readExcelFile(file);
+        List<BenchProfilesInfo> benchProfilesInfo = benchProfilesExcelReaderService.readBenchProfilesExcelFile(file);
         benchProfilesRepository.saveAll(benchProfilesInfo);
     }
 

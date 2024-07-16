@@ -1,5 +1,6 @@
 package com.learnspring.userdetailsapi.dailysubmissions.service;
 
+import com.learnspring.userdetailsapi.common.CommonExcelReaderService;
 import com.learnspring.userdetailsapi.dailysubmissions.dto.DailySubmissionsDto;
 import com.learnspring.userdetailsapi.dailysubmissions.model.DailySubmissionsInfo;
 import com.learnspring.userdetailsapi.dailysubmissions.repository.DailySubmissionsRepository;
@@ -14,9 +15,9 @@ import java.util.Optional;
 public class DailySubmissionsServiceImpl implements DailySubmissionsService {
 
     private final DailySubmissionsRepository dailySubmissionsRepository;
-    private final DailySubmissionsExcelReaderService dailySubmissionsExcelReaderService;
+    private final CommonExcelReaderService dailySubmissionsExcelReaderService;
 
-    public DailySubmissionsServiceImpl(DailySubmissionsRepository dailySubmissionsRepository, DailySubmissionsExcelReaderService dailySubmissionsExcelReaderService) {
+    public DailySubmissionsServiceImpl(DailySubmissionsRepository dailySubmissionsRepository, CommonExcelReaderService dailySubmissionsExcelReaderService) {
         this.dailySubmissionsRepository = dailySubmissionsRepository;
         this.dailySubmissionsExcelReaderService = dailySubmissionsExcelReaderService;
     }
@@ -24,7 +25,7 @@ public class DailySubmissionsServiceImpl implements DailySubmissionsService {
     @Override
     public void createSubmissionDetails(MultipartFile file) throws Exception {
 //        List<DailySubmissionsInfo> d = dailySubmissionsExcelReaderService.readExcelFile(file);
-        List<DailySubmissionsInfo> dailySubmissionsInfo = dailySubmissionsExcelReaderService.readExcelFile(file);
+        List<DailySubmissionsInfo> dailySubmissionsInfo = dailySubmissionsExcelReaderService.readDailySubmissionsExcelFile(file);
         dailySubmissionsRepository.saveAll(dailySubmissionsInfo);
     }
 

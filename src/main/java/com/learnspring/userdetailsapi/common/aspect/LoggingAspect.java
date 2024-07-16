@@ -1,4 +1,4 @@
-package com.learnspring.userdetailsapi.benchprofiles.aspect;
+package com.learnspring.userdetailsapi.common.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,8 +35,11 @@ public class LoggingAspect {
      * Pointcut that matches all Spring beans in the application's main packages.
      */
     @Pointcut("within(com.learnspring.userdetailsapi.benchprofiles..*)" +
-            " || within(com.learnspring.userdetailsapi.benchprofiles.service..*)" +
-            " || within(com.learnspring.userdetailsapi.benchprofiles.controller..*)")
+//            " || within(com.learnspring.userdetailsapi.benchprofiles.service..*)" +
+//            " || within(com.learnspring.userdetailsapi.benchprofiles.controller..*)" +
+            " || within(com.learnspring.userdetailsapi.dailysubmissions..*)")
+//            " || within(com.learnspring.userdetailsapi.dailysubmissions.service..*)" +
+//            " || within(com.learnspring.userdetailsapi.dailysubmissions.controller..*)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }
