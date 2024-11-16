@@ -1,0 +1,26 @@
+# YAML lint test 
+# this file would create a job in GITHUB actions that would test indentation and 
+# other YAML code quality on repository push
+name: YAML Lint
+on:
+  push:
+    branches:
+      - ${{ github.ref_name }} 
+    paths:
+      - '**.yml'
+      - '**.yaml'
+
+jobs:
+  yaml-lint:
+    name: YAML Lint Check on ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run YAML Lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .
+          config_file: .yamllint.yml
+          strict: false
