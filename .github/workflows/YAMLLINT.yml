@@ -9,7 +9,6 @@ on:
 #    paths:
 #      - '**.yml'
 #      - '**.yaml'
-
 jobs:
   yaml-lint:
     name: YAML Lint Check on ${{ github.ref_name }}
@@ -17,7 +16,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Run YAML Lint
         uses: ibiqlik/action-yamllint@v3
         with:
