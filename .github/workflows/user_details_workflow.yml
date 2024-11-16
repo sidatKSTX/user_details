@@ -25,13 +25,39 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package 
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/user-details-ga:${{ github.sha }} .      
+    
+    - name: Push Docker image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/user-details-ga:${{ github.sha }}
+
+    - name: Tag the image with 'latest'
+      run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/user-details-ga:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/user-details-ga:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/user-details-ga:latest
+  
+    - name: Run Docker Scout Action
+      uses: docker/scout-action@v1
+      with:
+          command: quickview,cves,recommendations
+          organization: bhargavivennam
+          # token: ${{ secrets.DOCKER_SCOUT_TOKEN }}  # Make sure you have this token set in your secrets
+          image: ${{ secrets.DOCKER_USERNAME }}/user-details-ga:latest 
+
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
