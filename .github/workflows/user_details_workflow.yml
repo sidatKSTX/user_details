@@ -11,11 +11,11 @@ name: UserDetails CI
 on:
   push:
     branches: 
-      - ${{ github.ref_name }}  # Current branch name
+      - '**'
     
   pull_request:
     branches:
-      - ${{ github.ref_name }}  # Current branch name
+      - '**'
 
 jobs:
   build-{{ github.ref_name }}:
