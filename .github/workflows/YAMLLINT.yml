@@ -6,9 +6,9 @@ on:
   push:
     branches:
       - ${{ github.ref_name }} 
-    paths:
-      - '**.yml'
-      - '**.yaml'
+#    paths:
+#      - '**.yml'
+#      - '**.yaml'
 
 jobs:
   yaml-lint:
