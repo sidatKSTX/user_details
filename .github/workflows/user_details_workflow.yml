@@ -10,13 +10,16 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+		  - ${{ github.ref_name }}  # Current branch name
+    
   pull_request:
-    branches: [ "main" ]
+    branches:
+		  - ${{ github.ref_name }}  # Current branch name
 
 jobs:
-  build:
-
+  build-{{ github.ref_name }}:
+    name: Build on ${{ github.ref_name }}  # Example: "Build on feature-123"
     runs-on: ubuntu-latest
 
     steps:
