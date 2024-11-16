@@ -18,7 +18,7 @@ on:
       - '**'
 
 jobs:
-  build-{{ github.ref_name }}:
+  build:
     name: Build on ${{ github.ref_name }}  # Example: "Build on feature-123"
     runs-on: ubuntu-latest
 
