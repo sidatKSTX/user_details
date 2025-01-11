@@ -89,10 +89,10 @@ public class BenchProfilesController {
     }
 
     //@PreAuthorize("hasAuthority('SCOPE_TEST')")
-    @GetMapping("/ping")
-    public String ping() {
-        var context = SecurityContextHolder.getContext();
-        var authentication = context.getAuthentication();
-        return "Scopes: " + authentication.getAuthorities();
-    }
+    // @GetMapping("/ping")
+    // public String ping() {
+    //     var context = SecurityContextHolder.getContext();
+    //     var authentication = context.getAuthentication();
+    //     return "Scopes: " + authentication.getAuthorities();
+    // }
 }
