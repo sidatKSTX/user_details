@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,7 +51,7 @@ public class BenchProfilesController {
         return new ResponseEntity<>("User details updated successfully.", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_TEST')")
+    //@PreAuthorize("hasAuthority('SCOPE_TEST')")
     @GetMapping("/fetch-users")
     @Operation(summary = "Fetch Bench profiles User Details")
     public ResponseEntity<List<BenchProfilesInfo>> fetchBenchProfileDetails() {
@@ -64,7 +64,7 @@ public class BenchProfilesController {
         return new ResponseEntity<>(users.get(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_TEST')")
+    //@PreAuthorize("hasAuthority('SCOPE_TEST')")
     @GetMapping("/fetch-users/{id}")
     @Operation(summary = "Fetch Bench profiles User Details by ID")
     public ResponseEntity<Optional<BenchProfilesInfo>> fetchBenchProfileDetailsByID(@PathVariable Long id) {
@@ -88,7 +88,7 @@ public class BenchProfilesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_TEST')")
+    //@PreAuthorize("hasAuthority('SCOPE_TEST')")
     @GetMapping("/ping")
     public String ping() {
         var context = SecurityContextHolder.getContext();
