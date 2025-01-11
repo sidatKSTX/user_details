@@ -2,9 +2,12 @@ services:
   #  user-details, api-gateway, naming-server, spring-cloud-config, postgres, zipkin, prometheus, grafana
 
   user-details-api-non-secure:
-    image: bhargavivennam/user-details-non-secure-ga:latest
+    image: user-details-non-secure-ga-v2
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8083:8083"
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT  
     networks:
       - consulting_firm_network
     depends_on:
