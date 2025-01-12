@@ -8,21 +8,12 @@ services:
       dockerfile: Dockerfile
     networks:
       - consulting_firm_network
-    depends_on:
-      - naming-server
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
       SPRING_DATASOURCE_URL: jdbc:postgresql://dev-aurora-postgresql-auroradbinstance-4xndvv5lf7k1.cmstfl08uvou.us-east-1.rds.amazonaws.com:3306/$POSTGRES_DB
       SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
       SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
-
-  naming-server:
-    image: bhargavivennam/naming-server-ga:latest
-    ports:
-      - "8761:8761"
-    networks:
-      - consulting_firm_network
 
   zipkin-server:
     image: openzipkin/zipkin:2.23.8
