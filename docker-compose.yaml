@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT  
     networks:
       - consulting_firm_network
     depends_on:
